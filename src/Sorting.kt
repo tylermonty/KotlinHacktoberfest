@@ -1,11 +1,13 @@
 fun main(args: Array<String>) {
-    val numbers1 = mutableListOf(14, 88, 3, 64, 7, 9, 8, 2)
-    val numbers2 = mutableListOf(14, 88, 3, 64, 7, 9, 8, 2)
+    val numbers = mutableListOf(14, 88, 3, 64, 7, 9, 8, 2)
 
-    var selection_sorted = selectionSort(numbers1)
-    var insertion_sorted = insertionSort(numbers2)
+    var selection_sorted = selectionSort(numbers)
+    var insertion_sorted = insertionSort(numbers)
+    var merge_sorted = mergeSort(numbers)
+
     println(selection_sorted)
     println(insertion_sorted)
+    println(merge_sorted)
 }
 
 fun insertionSort(numbers:MutableList<Int>):List<Int>{
@@ -40,4 +42,42 @@ fun selectionSort(numbers:MutableList<Int>):List<Int>{
         }
     }
     return numbers
+}
+
+fun mergeSort(list: List<Int>): List<Int> {
+    if (list.size <= 1) {
+        return list
+    }
+
+    val middle = list.size / 2
+    var left = list.subList(0,middle);
+    var right = list.subList(middle,list.size);
+
+    return merge(mergeSort(left), mergeSort(right))
+}
+fun merge(left: List<Int>, right: List<Int>): List<Int>  {
+    var indexLeft = 0
+    var indexRight = 0
+    var newList : MutableList<Int> = mutableListOf()
+
+    while (indexLeft < left.count() && indexRight < right.count()) {
+        if (left[indexLeft] <= right[indexRight]) {
+            newList.add(left[indexLeft])
+            indexLeft++
+        } else {
+            newList.add(right[indexRight])
+            indexRight++
+        }
+    }
+
+    while (indexLeft < left.size) {
+        newList.add(left[indexLeft])
+        indexLeft++
+    }
+
+    while (indexRight < right.size) {
+        newList.add(right[indexRight])
+        indexRight++
+    }
+    return newList;
 }
